@@ -137,3 +137,9 @@ inoremap <c-l> <c-o>a
 " change cursor on insert mode
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
+
+" Ignore case when searching
+set ignorecase
+
+" When searching try to be smart about cases
+set smartcase
