@@ -143,3 +143,6 @@ set ignorecase
 
 " When searching try to be smart about cases
 set smartcase
+
+" Keep cursor in middle of screen when scrolling
+:set so=999
