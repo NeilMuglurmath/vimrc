@@ -1,3 +1,4 @@
+" ~/.vimrc
 set nocompatible              " be iMproved, required
 filetype off                  " required
 " set the runtime path to include Vundle and initialize
@@ -11,7 +12,7 @@ call vundle#begin()
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-fugitive'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
@@ -20,32 +21,16 @@ Plugin 'tpope/vim-fugitive'
 " Plugin 'file:///home/gmarik/path/to/plugin'
 " The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
-Plugin 'ascenator/L9', {'name': 'newL9'}
-Plugin 'airblade/vim-gitgutter'
-Plugin 'indentLine.vim'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'c.vim'
 Plugin 'bronson/vim-trailing-whitespace'
 Plugin 'tpope/vim-commentary'
+Plugin 'Townk/vim-autoclose'
 Plugin 'vim-autoformat/vim-autoformat'
 Plugin 'vim-airline/vim-airline'
-Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'w0rp/ale'
-Plugin 'tpope/vim-surround'
-Plugin 'preservim/nerdtree'
 Plugin 'frazrepo/vim-rainbow'
-" Plugin 'ervandew/supertab'
-" Plugin 'Syntastic'
-" Plugin 'godlygeek/tabular'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'Townk/vim-autoclose'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'tpope/vim-repeat'
-" Plugin 'ycm-core/YouCompleteMe'
+Plugin 'machakann/vim-highlightedyank'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -61,10 +46,10 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-" ~/.vimrc
 
 let g:airline_powerline_fonts=1
-" " turn hybrid line numbers on
+
+" turn hybrid line numbers on
 :set number relativenumber
 :set nu rnu
 :set ruler
@@ -89,20 +74,13 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 " " nerdtree
-nnoremap <leader>n :nerdtreefocus<cr>
-nnoremap <c-n> :nerdtree<cr>
-nnoremap <c-t> :nerdtreetoggle<cr>
-nnoremap <c-f> :nerdtreefind<cr>
+" nnoremap <leader>n :nerdtreefocus<cr>
+" nnoremap <c-n> :nerdtree<cr>
+" nnoremap <c-t> :nerdtreetoggle<cr>
+" nnoremap <c-f> :nerdtreefind<cr>
 
-" " vim rainbow
+" vim rainbow
 let g:rainbow_active = 1
-" Start NERDTree and put the cursor back in the other window.
-autocmd VimEnter * NERDTree | wincmd p
-" Exit Vim if NERDTree is the only window remaining in the only tab.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-" Close the tab if NERDTree is the only window remaining in it.
-autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-" unset list mode (remove '$' at end of each line)
 let g:indentguides_togglelistmode = 0
 
 let g:deoplete#enable_at_startup = 1
@@ -145,4 +123,33 @@ set ignorecase
 set smartcase
 
 " Keep cursor in middle of screen when scrolling
-:set so=999
+" :set so=999
+
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \   exe "normal! g`\"" |
+            \ endif
+
+" Unbind some useless/annoying default key bindings.
+" 'Q' in normal mode enters Ex mode. You almost never want this.
+nmap Q <Nop>
+
+" Disable audible bell because it's annoying.
+set noerrorbells visualbell t_vb=
+
+" Try to prevent bad habits like using the arrow keys for movement. This is
+" not the only possible bad habit. For example, holding down the h/j/k/l keys
+" for movement, rather than using more efficient movement commands, is also a
+" bad habit. The former is enforceable through a .vimrc, while we don't know
+" how to prevent the latter.
+" Do this in normal mode...
+nnoremap <Left>  :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up>    :echoe "Use k"<CR>
+nnoremap <Down>  :echoe "Use j"<CR>
+
+" Yank highlight
+let g:highlightedyank_highlight_duration = 130
+highlight HighlightedyankRegion ctermbg=500 guibg=#000000
