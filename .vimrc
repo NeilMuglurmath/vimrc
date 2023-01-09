@@ -26,13 +26,14 @@ call vundle#begin()
 " different version somewhere else.
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-commentary'
-Plugin 'Townk/vim-autoclose'
+Plugin 'Raimondi/delimitMate'
 Plugin 'vim-autoformat/vim-autoformat'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'frazrepo/vim-rainbow'
 Plugin 'machakann/vim-highlightedyank'
 Plugin 'octol/vim-cpp-enhanced-highlight'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -48,6 +49,7 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+" colorscheme slate
 colorscheme slate
 
 " ----- Plugin Settings -----
@@ -59,7 +61,7 @@ let g:airline_theme = 'jellybeans'
 
 " Yank highlight
 let g:highlightedyank_highlight_duration = 130
-highlight HighlightedyankRegion ctermbg=2 guibg=#401294
+" highlight HighlightedyankRegion ctermbg=100 guibg=#000111
 
 " cpp highlighting
 let g:cpp_class_scope_highlight = 1
@@ -123,9 +125,15 @@ inoremap jk <Esc>A{<CR>}<C-o>O<Tab>
 " map jj to <Esc>
 inoremap jj <Esc>
 " Ctrl+l to get to next line in insert mode
-inoremap <c-l> <c-o>a
+inoremap <c-l> <c-o>o
 " kj to move to next char in insert mode
 inoremap kj <c-o>a
+
+" making wq case insensitive
+command W w
+command WQ wq
+command Q q
+
 " Try to prevent bad habits like using the arrow keys for movement. This is
 " not the only possible bad habit. For example, holding down the h/j/k/l keys
 " for movement, rather than using more efficient movement commands, is also a
