@@ -33,6 +33,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'frazrepo/vim-rainbow'
 Plugin 'machakann/vim-highlightedyank'
 Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'easymotion/vim-easymotion'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -49,19 +50,20 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-" colorscheme slate
+" colorscheme
 colorscheme slate
+set background=dark
 
 " ----- Plugin Settings -----
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#formatter = 'default'
-let g:airline_theme = 'jellybeans'
+" let g:airline_theme = 'jellybeans'
 
 " Yank highlight
 let g:highlightedyank_highlight_duration = 130
-" highlight HighlightedyankRegion ctermbg=100 guibg=#000111
+highlight HighlightedyankRegion ctermbg=100 guibg=#000111
 
 " cpp highlighting
 let g:cpp_class_scope_highlight = 1
@@ -72,7 +74,16 @@ let g:cpp_concepts_highlight = 1
 
 " vim rainbow
 let g:rainbow_active = 1
+
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" f to hop to any word
+nmap f <Plug>(easymotion-bd-w)
+
+" Turn on case-insensitive feature
+let g:EasyMotion_smartcase = 1
 " ----- Vim Options -----
+let mapleader = ","
 
 " No need for  -- INSERT -- any more
 set noshowmode
@@ -95,12 +106,18 @@ set incsearch
 set hlsearch
 " enable mouse interaction
 set mouse=a
-" c-l to get out of parentheses in insert mode
 
-set tabstop=2
+set tabstop=4
 set shiftwidth=4
+
+set ai "Auto indent
+set si "Smart indent
+
 " convert tab to spaces
 set expandtab
+
+" Be smart when using tabs ;)
+set smarttab
 
 " change cursor on insert mode
 let &t_SI = "\e[6 q"
@@ -110,22 +127,25 @@ let &t_EI = "\e[2 q"
 set ignorecase
 
 " When searching try to be smart about cases
-"set smartcase
+set smartcase
 
 " Keep cursor in middle of screen when scrolling
-set so=10
+set so=999
 " Disable audible bell because it's annoying.
 set noerrorbells visualbell t_vb=
+
+" set sensible highlight matches that don't obscure the text
+highlight MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
 
 " ----- Key Mappings -----
 " insert semicolon at end of line with ;;
 inoremap ;; <c-o>A;
 " set up parens with jk
-inoremap jk <Esc>A{<CR>}<C-o>O<Tab>
+inoremap jk <Esc>A}<Left>{<Cr>
 " map jj to <Esc>
 inoremap jj <Esc>
 " Ctrl+l to get to next line in insert mode
-inoremap <c-l> <c-o>o
+inoremap oo <c-o>o
 " kj to move to next char in insert mode
 inoremap kj <c-o>a
 
@@ -148,12 +168,14 @@ nnoremap <Down>  :echoe "Use j"<CR>
 vnoremap <c-c> :w !pbcopy<cr><cr>
 noremap <c-v> :r !pbpaste<cr><cr>
 
+noremap ; A;<Esc>
+
 " Unbind some useless/annoying default key bindings.
 " 'Q' in normal mode enters Ex mode. You almost never want this.
 nmap Q <Nop>
 
 "This unsets the last search pattern register by hitting return
-nnoremap <CR> :noh<CR><CR>
+nnoremap <CR> :noh<CR>
 
 " ----- Autocommands -----
 " Toggle line numbering between insert and normal mode
