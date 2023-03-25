@@ -25,15 +25,19 @@ call vundle#begin()
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'sheerun/vim-polyglot'
 Plugin 'tpope/vim-commentary'
 Plugin 'Raimondi/delimitMate'
 Plugin 'vim-autoformat/vim-autoformat'
 Plugin 'vim-airline/vim-airline'
+Plugin 'pineapplegiant/spaceduck'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'frazrepo/vim-rainbow'
 Plugin 'machakann/vim-highlightedyank'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'rhysd/vim-clang-format'
+Plugin 'kana/vim-operator-user'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -50,16 +54,21 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-" colorscheme
-colorscheme slate
-set background=dark
+" ----- Colorshceme Settings -----
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors
+endif
+
+colorscheme spaceduck
 
 " ----- Plugin Settings -----
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#formatter = 'default'
-" let g:airline_theme = 'jellybeans'
+let g:airline_theme = 'spaceduck'
 
 " Yank highlight
 let g:highlightedyank_highlight_duration = 130
@@ -83,18 +92,26 @@ nmap f <Plug>(easymotion-bd-w)
 " Turn on case-insensitive feature
 let g:EasyMotion_smartcase = 1
 " ----- Vim Options -----
-let mapleader = ","
+set timeoutlen=200
+set ttimeoutlen=0
+
+set showcmd
+
+nnoremap <SPACE> <Nop>
+map <Space> <Leader>
 
 " No need for  -- INSERT -- any more
 set noshowmode
 " turn hybrid line numbers on
-set number relativenumber
+set number rnu
 
 set ruler
 
 set wrap
 
 set encoding=utf-8
+
+set cursorline
 
 " syntax highlighting
 syntax on
@@ -131,6 +148,7 @@ set smartcase
 
 " Keep cursor in middle of screen when scrolling
 set so=999
+
 " Disable audible bell because it's annoying.
 set noerrorbells visualbell t_vb=
 
@@ -139,31 +157,17 @@ highlight MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
 
 " ----- Key Mappings -----
 " insert semicolon at end of line with ;;
-inoremap ;; <c-o>A;
+inoremap ; <c-o>A;<CR>
+
 " set up parens with jk
-inoremap jk <Esc>A}<Left>{<Cr>
+inoremap jk <Esc>A}<Left>{<Cr><Up><Esc>o
 " map jj to <Esc>
 inoremap jj <Esc>
-" Ctrl+l to get to next line in insert mode
-inoremap oo <c-o>o
-" kj to move to next char in insert mode
-inoremap kj <c-o>a
 
 " making wq case insensitive
 command W w
 command WQ wq
 command Q q
-
-" Try to prevent bad habits like using the arrow keys for movement. This is
-" not the only possible bad habit. For example, holding down the h/j/k/l keys
-" for movement, rather than using more efficient movement commands, is also a
-" bad habit. The former is enforceable through a .vimrc, while we don't know
-" how to prevent the latter.
-" Do this in normal mode...
-nnoremap <Left>  :echoe "Use h"<CR>
-nnoremap <Right> :echoe "Use l"<CR>
-nnoremap <Up>    :echoe "Use k"<CR>
-nnoremap <Down>  :echoe "Use j"<CR>
 
 vnoremap <c-c> :w !pbcopy<cr><cr>
 noremap <c-v> :r !pbpaste<cr><cr>
@@ -176,6 +180,18 @@ nmap Q <Nop>
 
 "This unsets the last search pattern register by hitting return
 nnoremap <CR> :noh<CR>
+
+" Tab out of things
+inoremap <expr> <Tab> TriggerTab()
+
+function! TriggerTab()
+    let c = getline('.')[col('.') - 1]
+    if (c == ')' || c == ']' || c == '}' || c == '"' || c == "'" || c == '>')
+        return "\<Right>"
+    else
+        return "\<Tab>"
+    endif
+endfunction
 
 " ----- Autocommands -----
 " Toggle line numbering between insert and normal mode
@@ -196,3 +212,9 @@ au BufWrite * :Autoformat
 
 " save on focus switch
 autocmd bufleave,focuslost * silent! wall
+
+" Automatically run clang-format on save for C++ files
+augroup cpp_format
+    autocmd!
+    autocmd BufWritePre *.cpp,*.h :ClangFormat
+augroup END
