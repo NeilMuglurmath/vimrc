@@ -38,6 +38,7 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'kana/vim-operator-user'
+Plugin 'mhinz/vim-startify'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -210,6 +211,9 @@ autocmd BufReadPost *
 " format on save
 au BufWrite * :Autoformat
 
+" Automatically run ClangFormat on save for C family files
+autocmd BufWritePre *.c,*.h,*.cpp,*.hpp,*.cu :ClangFormat
+
 " save on focus switch
 autocmd bufleave,focuslost * silent! wall
 
@@ -218,3 +222,4 @@ augroup cpp_format
     autocmd!
     autocmd BufWritePre *.cpp,*.h :ClangFormat
 augroup END
+
