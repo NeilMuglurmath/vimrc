@@ -125,6 +125,9 @@ set hlsearch
 " enable mouse interaction
 set mouse=a
 
+" highlight color
+hi Visual term=reverse cterm=reverse guibg=Grey
+
 set tabstop=4
 set shiftwidth=4
 
@@ -158,7 +161,7 @@ highlight MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
 
 " ----- Key Mappings -----
 " insert semicolon at end of line with ;;
-inoremap ; <c-o>A;<CR>
+" inoremap ; <c-o>A;<CR>
 
 " set up parens with jk
 inoremap jk <Esc>A}<Left>{<Cr><Up><Esc>o
@@ -209,7 +212,7 @@ autocmd BufReadPost *
             \ endif
 
 " format on save
-au BufWrite * :Autoformat
+" au BufWrite * :Autoformat
 
 " Automatically run ClangFormat on save for C family files
 autocmd BufWritePre *.c,*.h,*.cpp,*.hpp,*.cu :ClangFormat
