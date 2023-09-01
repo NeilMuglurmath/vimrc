@@ -25,20 +25,22 @@ call vundle#begin()
 " Install L9 and avoid a Naming conflict if you've already installed a
 " different version somewhere else.
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'wincent/terminus'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'tpope/vim-commentary'
 Plugin 'Raimondi/delimitMate'
 Plugin 'vim-autoformat/vim-autoformat'
 Plugin 'vim-airline/vim-airline'
-Plugin 'pineapplegiant/spaceduck'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'frazrepo/vim-rainbow'
+"Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'frazrepo/vim-rainbow'
 Plugin 'machakann/vim-highlightedyank'
-Plugin 'octol/vim-cpp-enhanced-highlight'
+" Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'kana/vim-operator-user'
 Plugin 'mhinz/vim-startify'
+Plugin 'embark-theme/vim'
+Plugin 'rickharris/vim-railscasts'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -62,25 +64,24 @@ if exists('+termguicolors')
     set termguicolors
 endif
 
-colorscheme spaceduck
-
+colorscheme embark
 " ----- Plugin Settings -----
 " Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#formatter = 'default'
-let g:airline_theme = 'spaceduck'
+" let g:airline_extensions = []
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline_powerline_fonts=1
+" let g:airline#extensions#tabline#formatter = 'default'
 
 " Yank highlight
 let g:highlightedyank_highlight_duration = 130
-highlight HighlightedyankRegion ctermbg=100 guibg=#000111
+highlight HighlightedyankRegion ctermbg=100 guibg=#c6e2ff
 
 " cpp highlighting
-let g:cpp_class_scope_highlight = 1
-let g:cpp_member_variable_highlight = 1
-let g:cpp_class_decl_highlight = 1
-let g:cpp_posix_standard = 1
-let g:cpp_concepts_highlight = 1
+" let g:cpp_class_scope_highlight = 1
+" let g:cpp_member_variable_highlight = 1
+" let g:cpp_class_decl_highlight = 1
+" let g:cpp_posix_standard = 1
+" let g:cpp_concepts_highlight = 1
 
 " vim rainbow
 let g:rainbow_active = 1
@@ -137,12 +138,14 @@ set si "Smart indent
 " convert tab to spaces
 set expandtab
 
+set cursorline
+
 " Be smart when using tabs ;)
 set smarttab
 
 " change cursor on insert mode
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
+" let &t_SI = "\e[6 q"
+" let &t_EI = "\e[2 q"
 
 " Ignore case when searching
 set ignorecase
