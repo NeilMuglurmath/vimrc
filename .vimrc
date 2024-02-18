@@ -31,10 +31,7 @@ Plugin 'tpope/vim-commentary'
 Plugin 'Raimondi/delimitMate'
 Plugin 'vim-autoformat/vim-autoformat'
 Plugin 'vim-airline/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
-"Plugin 'frazrepo/vim-rainbow'
 Plugin 'machakann/vim-highlightedyank'
-" Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'kana/vim-operator-user'
@@ -143,10 +140,6 @@ set cursorline
 " Be smart when using tabs ;)
 set smarttab
 
-" change cursor on insert mode
-" let &t_SI = "\e[6 q"
-" let &t_EI = "\e[2 q"
-
 " Ignore case when searching
 set ignorecase
 
@@ -164,7 +157,7 @@ highlight MatchParen cterm=underline ctermbg=NONE ctermfg=NONE
 
 " ----- Key Mappings -----
 " insert semicolon at end of line with ;;
-" inoremap ; <c-o>A;<CR>
+inoremap ;; <c-o>A;<CR>
 
 " set up parens with jk
 inoremap jk <Esc>A}<Left>{<Cr><Up><Esc>o
@@ -213,9 +206,6 @@ autocmd BufReadPost *
             \ if line("'\"") > 0 && line("'\"") <= line("$") |
             \   exe "normal! g`\"" |
             \ endif
-
-" format on save
-" au BufWrite * :Autoformat
 
 " Automatically run ClangFormat on save for C family files
 autocmd BufWritePre *.c,*.h,*.cpp,*.hpp,*.cu :ClangFormat
